@@ -15,5 +15,6 @@ namespace TodoApp.Domain.Entities
 
         public ICollection<TaskItem> Tasks { get; set; } = [];
 
+        public string? PhoneNumber { get; set; }
     }
 }
