@@ -1,3 +1,4 @@
+using TodoApp.Infrastructure.Persistence;
 using TodoApp.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+// Seed the admin user
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    await AdminSeeder.SeedAdminUserAsync(context, app.Configuration);
+}
 
 //// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
